@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Manicura ✨</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ═══════════ HEADER ═══════════ -->
+  <header class="app-header">
+    <h1>💅 Agenda Manicura</h1>
+    <nav class="header-actions">
+      <button id="btnNuevaCita" class="btn btn-primary">+ Nueva Cita</button>
+      <button id="btnConfigServicios" class="btn btn-outline">⚙ Servicios</button>
+      <button id="btnExportar" class="btn btn-outline">📥 Exportar</button>
+      <label class="btn btn-outline btn-file">
+        📤 Importar
+        <input type="file" id="inputImportar" accept=".json" hidden>
+      </label>
+    </nav>
+  </header>
+
+  <!-- ═══════════ TABS ═══════════ -->
+  <section class="tabs-bar">
+    <button class="tab active" data-tab="lista">📋 Vista de Lista</button>
+    <button class="tab" data-tab="calendario">📅 Calendario Semanal</button>
+  </section>
+
+  <!-- ═══════════ VISTA LISTA ═══════════ -->
+  <main id="vistaLista" class="view active">
+    <div class="filtros">
+      <label>Fecha:
+        <input type="date" id="filtroFecha">
+      </label>
+      <label>Estado:
+        <select id="filtroEstado">
+          <option value="">Todos</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="confirmada">Confirmada</option>
+          <option value="completada">Completada</option>
+          <option value="cancelada">Cancelada</option>
+        </select>
+      </label>
+    </div>
+    <div id="listaCitas" class="lista-citas"></div>
+  </main>
+
+  <!-- ═══════════ VISTA CALENDARIO ═══════════ -->
+  <main id="vistaCalendario" class="view">
+    <div class="cal-nav">
+      <button id="calPrev" class="btn btn-sm">◀ Semana anterior</button>
+      <button id="calHoy" class="btn btn-sm btn-primary">Hoy</button>
+      <button id="calNext" class="btn btn-sm">Semana siguiente ▶</button>
+      <span id="calRango" class="cal-rango"></span>
+    </div>
+    <div class="cal-grid-wrapper">
+      <div id="calGrid" class="cal-grid"></div>
+    </div>
+  </main>
+
+  <!-- ═══════════ MODAL: NUEVA / EDITAR CITA ═══════════ -->
+  <div id="modalCita" class="modal-overlay" hidden>
+    <div class="modal">
+      <button class="modal-close" data-close>&times;</button>
+      <h2 id="modalCitaTitulo">Nueva Cita</h2>
+      <form id="formCita" autocomplete="off">
+        <input type="hidden" id="citaId">
+
+        <label>Nombre de la clienta *
+          <input type="text" id="citaNombre" required maxlength="80" placeholder="Ej: María López">
+        </label>
+
+        <label>WhatsApp *
+          <div class="input-group">
+            <input type="text" id="citaIndicativo" value="+57" maxlength="5" class="indicativo">
+            <input type="tel" id="citaTelefono" required placeholder="3001234567" pattern="[0-9]{7,15}">
+          </div>
+        </label>
+
+        <label>Servicio *
+          <select id="citaServicio" required>
+            <option value="">Seleccionar…</option>
+          </select>
+        </label>
+
+        <div class="info-servicio" id="infoServicio" hidden>
+          <span id="infoDuracion"></span> · <span id="infoPrecio"></span>
+        </div>
+
+        <label>Fecha *
+          <input type="date" id="citaFecha" required>
+        </label>
+
+        <label>Hora disponible *
+          <select id="citaHora" required>
+            <option value="">Elige servicio y fecha primero</option>
+          </select>
+        </label>
+
+        <label>Notas
+          <textarea id="citaNotas" rows="2" maxlength="300" placeholder="Preferencias, alergias, etc."></textarea>
+        </label>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn btn-primary">💾 Guardar Cita</button>
+          <button type="button" class="btn btn-whatsapp" id="btnGuardarYWhatsapp">💬 Guardar y Confirmar por WhatsApp</button>
+          <button type="button" class="btn btn-outline" data-close>Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════ MODAL: DETALLE CITA ═══════════ -->
+  <div id="modalDetalle" class="modal-overlay" hidden>
+    <div class="modal">
+      <button class="modal-close" data-close>&times;</button>
+      <h2>Detalle de Cita</h2>
+      <div id="detalleContenido"></div>
+      <div class="modal-actions" id="detalleAcciones"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ MODAL: CONFIGURAR SERVICIOS ═══════════ -->
+  <div id="modalServicios" class="modal-overlay" hidden>
+    <div class="modal modal-wide">
+      <button class="modal-close" data-close>&times;</button>
+      <h2>⚙ Configurar Servicios</h2>
+      <div id="listaServicios"></div>
+      <hr>
+      <h3 id="formServicioTitulo">Agregar servicio</h3>
+      <form id="formServicio" autocomplete="off">
+        <input type="hidden" id="servicioId">
+        <label>Nombre *
+          <input type="text" id="servicioNombre" required maxlength="60">
+        </label>
+        <label>Duración (min) *
+          <input type="number" id="servicioDuracion" required min="10" max="300" step="5">
+        </label>
+        <label>Precio COP *
+          <input type="number" id="servicioPrecio" required min="0" step="500">
+        </label>
+        <div class="modal-actions">
+          <button type="submit" class="btn btn-primary">💾 Guardar servicio</button>
+          <button type="button" class="btn btn-outline" id="btnCancelarServicio">Cancelar edición</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════ TOAST ═══════════ -->
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
