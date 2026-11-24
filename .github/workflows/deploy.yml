@@ -27,10 +27,15 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare static site
+        run: |
+          mkdir -p _site
+          cp -r index.html css js .nojekyll _site/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./agenda-manicura
+          path: ./_site
 
       - name: Deploy to GitHub Pages
         id: deployment
