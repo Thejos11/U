@@ -1,0 +1,30 @@
+# ── OS ──
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+._*
+
+# ── IDEs / Editores ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# ── Node (si se usa servidor local) ──
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# ── Respaldos de la agenda ──
+agenda_manicura_*.json
+
+# ── Temporales ──
+*.tmp
+*.bak
+*.log
