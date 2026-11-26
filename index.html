@@ -3,156 +3,320 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agenda Manicura ✨</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <title>Agenda Manicura ✨ — Tu cita perfecta</title>
+  <meta name="description" content="Agenda tu cita de manicura en segundos. Servicios profesionales, horarios flexibles y confirmación instantánea por WhatsApp.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/landing.css">
 </head>
 <body>
 
-  <!-- ═══════════ HEADER ═══════════ -->
-  <header class="app-header">
-    <h1>💅 Agenda Manicura</h1>
-    <nav class="header-actions">
-      <button id="btnNuevaCita" class="btn btn-primary">+ Nueva Cita</button>
-      <button id="btnConfigServicios" class="btn btn-outline">⚙ Servicios</button>
-      <button id="btnExportar" class="btn btn-outline">📥 Exportar</button>
-      <label class="btn btn-outline btn-file">
-        📤 Importar
-        <input type="file" id="inputImportar" accept=".json" hidden>
-      </label>
-    </nav>
-  </header>
+  <!-- ═══════════ NAVBAR ═══════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="container navbar-inner">
+      <a href="#" class="navbar-brand">💅 Agenda Manicura</a>
+      <button class="navbar-toggle" id="navToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="navbar-menu" id="navMenu">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#como-funciona">Cómo funciona</a></li>
+        <li><a href="#testimonios">Opiniones</a></li>
+        <li><a href="#faq">Preguntas</a></li>
+        <li><a href="agendar.html" class="btn btn-nav">Agendar cita</a></li>
+      </ul>
+    </div>
+  </nav>
 
-  <!-- ═══════════ TABS ═══════════ -->
-  <section class="tabs-bar">
-    <button class="tab active" data-tab="lista">📋 Vista de Lista</button>
-    <button class="tab" data-tab="calendario">📅 Calendario Semanal</button>
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-content" data-animate>
+        <span class="hero-badge">✨ Reserva en menos de 1 minuto</span>
+        <h1>Uñas perfectas,<br><span class="text-gradient">sin complicaciones</span></h1>
+        <p class="hero-subtitle">
+          Elige tu servicio, escoge el horario que más te convenga y recibe
+          confirmación instantánea por WhatsApp. Así de fácil.
+          <!-- EDITABLE: Cambia este texto por la propuesta de valor real del negocio -->
+        </p>
+        <div class="hero-actions">
+          <a href="agendar.html" class="btn btn-primary btn-lg">
+            Agendar mi cita
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="#servicios" class="btn btn-ghost btn-lg">Ver servicios</a>
+        </div>
+      </div>
+      <div class="hero-visual" data-animate>
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <div class="hero-card-body">
+            <div class="hero-cal-row">
+              <span class="hero-cal-day active">Lun</span>
+              <span class="hero-cal-day">Mar</span>
+              <span class="hero-cal-day">Mié</span>
+              <span class="hero-cal-day">Jue</span>
+              <span class="hero-cal-day">Vie</span>
+            </div>
+            <div class="hero-slot booked">
+              <span class="hero-slot-time">09:00</span>
+              <span class="hero-slot-name">Semipermanente</span>
+              <span class="badge-mini confirmed">✓</span>
+            </div>
+            <div class="hero-slot available">
+              <span class="hero-slot-time">10:30</span>
+              <span class="hero-slot-name">Disponible</span>
+            </div>
+            <div class="hero-slot booked">
+              <span class="hero-slot-time">13:00</span>
+              <span class="hero-slot-name">Uñas acrílicas</span>
+              <span class="badge-mini pending">⏳</span>
+            </div>
+            <div class="hero-slot available pulse">
+              <span class="hero-slot-time">15:00</span>
+              <span class="hero-slot-name">¡Tu próxima cita!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-gradient-blur"></div>
   </section>
 
-  <!-- ═══════════ VISTA LISTA ═══════════ -->
-  <main id="vistaLista" class="view active">
-    <div class="filtros">
-      <label>Fecha:
-        <input type="date" id="filtroFecha">
-      </label>
-      <label>Estado:
-        <select id="filtroEstado">
-          <option value="">Todos</option>
-          <option value="pendiente">Pendiente</option>
-          <option value="confirmada">Confirmada</option>
-          <option value="completada">Completada</option>
-          <option value="cancelada">Cancelada</option>
-        </select>
-      </label>
-    </div>
-    <div id="listaCitas" class="lista-citas"></div>
-  </main>
-
-  <!-- ═══════════ VISTA CALENDARIO ═══════════ -->
-  <main id="vistaCalendario" class="view">
-    <div class="cal-nav">
-      <button id="calPrev" class="btn btn-sm">◀ Semana anterior</button>
-      <button id="calHoy" class="btn btn-sm btn-primary">Hoy</button>
-      <button id="calNext" class="btn btn-sm">Semana siguiente ▶</button>
-      <span id="calRango" class="cal-rango"></span>
-    </div>
-    <div class="cal-grid-wrapper">
-      <div id="calGrid" class="cal-grid"></div>
-    </div>
-  </main>
-
-  <!-- ═══════════ MODAL: NUEVA / EDITAR CITA ═══════════ -->
-  <div id="modalCita" class="modal-overlay" hidden>
-    <div class="modal">
-      <button class="modal-close" data-close>&times;</button>
-      <h2 id="modalCitaTitulo">Nueva Cita</h2>
-      <form id="formCita" autocomplete="off">
-        <input type="hidden" id="citaId">
-
-        <label>Nombre de la clienta *
-          <input type="text" id="citaNombre" required maxlength="80" placeholder="Ej: María López">
-        </label>
-
-        <label>WhatsApp *
-          <div class="input-group">
-            <input type="text" id="citaIndicativo" value="+57" maxlength="5" class="indicativo">
-            <input type="tel" id="citaTelefono" required placeholder="3001234567" pattern="[0-9]{7,15}">
+  <!-- ═══════════ SERVICIOS ═══════════ -->
+  <section class="section" id="servicios">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-badge">Nuestros servicios</span>
+        <h2>Todo lo que tus uñas necesitan</h2>
+        <p>Desde lo clásico hasta las técnicas más modernas, con productos de alta calidad.</p>
+        <!-- EDITABLE: Cambia los textos por los servicios reales del negocio -->
+      </div>
+      <div class="services-grid">
+        <!-- Servicio 1 -->
+        <div class="service-card" data-animate>
+          <div class="service-icon">💅</div>
+          <h3>Manicura tradicional</h3>
+          <p>Limado, cutícula, hidratación y esmaltado clásico para lucir siempre impecable.</p>
+          <div class="service-meta">
+            <span>⏱ 45 min</span>
+            <span>💰 $25.000</span>
           </div>
-        </label>
-
-        <label>Servicio *
-          <select id="citaServicio" required>
-            <option value="">Seleccionar…</option>
-          </select>
-        </label>
-
-        <div class="info-servicio" id="infoServicio" hidden>
-          <span id="infoDuracion"></span> · <span id="infoPrecio"></span>
         </div>
-
-        <label>Fecha *
-          <input type="date" id="citaFecha" required>
-        </label>
-
-        <label>Hora disponible *
-          <select id="citaHora" required>
-            <option value="">Elige servicio y fecha primero</option>
-          </select>
-        </label>
-
-        <label>Notas
-          <textarea id="citaNotas" rows="2" maxlength="300" placeholder="Preferencias, alergias, etc."></textarea>
-        </label>
-
-        <div class="modal-actions">
-          <button type="submit" class="btn btn-primary">💾 Guardar Cita</button>
-          <button type="button" class="btn btn-whatsapp" id="btnGuardarYWhatsapp">💬 Guardar y Confirmar por WhatsApp</button>
-          <button type="button" class="btn btn-outline" data-close>Cancelar</button>
+        <!-- Servicio 2 -->
+        <div class="service-card" data-animate>
+          <div class="service-icon">✨</div>
+          <h3>Semipermanente</h3>
+          <p>Esmalte de larga duración con secado UV. Brillo perfecto durante semanas.</p>
+          <div class="service-meta">
+            <span>⏱ 60 min</span>
+            <span>💰 $45.000</span>
+          </div>
         </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- ═══════════ MODAL: DETALLE CITA ═══════════ -->
-  <div id="modalDetalle" class="modal-overlay" hidden>
-    <div class="modal">
-      <button class="modal-close" data-close>&times;</button>
-      <h2>Detalle de Cita</h2>
-      <div id="detalleContenido"></div>
-      <div class="modal-actions" id="detalleAcciones"></div>
-    </div>
-  </div>
-
-  <!-- ═══════════ MODAL: CONFIGURAR SERVICIOS ═══════════ -->
-  <div id="modalServicios" class="modal-overlay" hidden>
-    <div class="modal modal-wide">
-      <button class="modal-close" data-close>&times;</button>
-      <h2>⚙ Configurar Servicios</h2>
-      <div id="listaServicios"></div>
-      <hr>
-      <h3 id="formServicioTitulo">Agregar servicio</h3>
-      <form id="formServicio" autocomplete="off">
-        <input type="hidden" id="servicioId">
-        <label>Nombre *
-          <input type="text" id="servicioNombre" required maxlength="60">
-        </label>
-        <label>Duración (min) *
-          <input type="number" id="servicioDuracion" required min="10" max="300" step="5">
-        </label>
-        <label>Precio COP *
-          <input type="number" id="servicioPrecio" required min="0" step="500">
-        </label>
-        <div class="modal-actions">
-          <button type="submit" class="btn btn-primary">💾 Guardar servicio</button>
-          <button type="button" class="btn btn-outline" id="btnCancelarServicio">Cancelar edición</button>
+        <!-- Servicio 3 -->
+        <div class="service-card" data-animate>
+          <div class="service-icon">💎</div>
+          <h3>Uñas acrílicas</h3>
+          <p>Extensión y esculpido profesional para uñas largas, fuertes y con estilo.</p>
+          <div class="service-meta">
+            <span>⏱ 90 min</span>
+            <span>💰 $70.000</span>
+          </div>
         </div>
-      </form>
+        <!-- Servicio 4 -->
+        <div class="service-card" data-animate>
+          <div class="service-icon">🌸</div>
+          <h3>Polygel</h3>
+          <p>Lo mejor del acrílico y el gel: ligero, flexible y con acabado natural.</p>
+          <div class="service-meta">
+            <span>⏱ 90 min</span>
+            <span>💰 $75.000</span>
+          </div>
+        </div>
+        <!-- Servicio 5 -->
+        <div class="service-card" data-animate>
+          <div class="service-icon">🔄</div>
+          <h3>Retiro / Mantenimiento</h3>
+          <p>Retiro seguro de semipermanente o acrílico, sin dañar la uña natural.</p>
+          <div class="service-meta">
+            <span>⏱ 30 min</span>
+            <span>💰 $20.000</span>
+          </div>
+        </div>
+        <!-- Servicio 6 -->
+        <div class="service-card service-card-cta" data-animate>
+          <div class="service-icon">📅</div>
+          <h3>¿Lista para agendar?</h3>
+          <p>Elige tu servicio favorito y reserva tu horario en segundos.</p>
+          <a href="agendar.html" class="btn btn-primary">Agendar ahora →</a>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- ═══════════ TOAST ═══════════ -->
-  <div id="toast" class="toast" hidden></div>
+  <!-- ═══════════ CÓMO FUNCIONA ═══════════ -->
+  <section class="section section-alt" id="como-funciona">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-badge">Súper fácil</span>
+        <h2>Agenda en 3 pasos</h2>
+        <p>Sin llamadas, sin esperas. Tu cita lista en menos de un minuto.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card" data-animate>
+          <div class="step-number">1</div>
+          <h3>Elige tu servicio</h3>
+          <p>Explora nuestros servicios con precios y duración claros. Sin sorpresas.</p>
+        </div>
+        <div class="step-connector" data-animate>
+          <svg width="40" height="2" viewBox="0 0 40 2"><line x1="0" y1="1" x2="40" y2="1" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/></svg>
+        </div>
+        <div class="step-card" data-animate>
+          <div class="step-number">2</div>
+          <h3>Escoge fecha y hora</h3>
+          <p>Mira los horarios disponibles en tiempo real y reserva el que prefieras.</p>
+        </div>
+        <div class="step-connector" data-animate>
+          <svg width="40" height="2" viewBox="0 0 40 2"><line x1="0" y1="1" x2="40" y2="1" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/></svg>
+        </div>
+        <div class="step-card" data-animate>
+          <div class="step-number">3</div>
+          <h3>Confirmación por WhatsApp</h3>
+          <p>Recibe los detalles de tu cita directamente en tu WhatsApp. ¡Listo!</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <script src="js/storage.js"></script>
-  <script src="js/app.js"></script>
+  <!-- ═══════════ TESTIMONIOS ═══════════ -->
+  <section class="section" id="testimonios">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-badge">Lo que dicen nuestras clientas</span>
+        <h2>Experiencias que hablan por sí solas</h2>
+        <!-- EDITABLE: Reemplaza estos testimonios por opiniones reales -->
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card" data-animate>
+          <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+          <p>"Agendar fue súper fácil y me confirmaron al instante por WhatsApp. ¡Las uñas quedaron hermosas!"</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">ML</div>
+            <div>
+              <strong>María López</strong>
+              <span>Clienta frecuente</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-animate>
+          <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+          <p>"Me encanta que puedo ver los horarios disponibles sin tener que llamar. El servicio de semipermanente es espectacular."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">CR</div>
+            <div>
+              <strong>Camila Rodríguez</strong>
+              <span>Clienta desde 2024</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-animate>
+          <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+          <p>"Profesionalismo total. Siempre puntual, siempre con productos de calidad. Las recomiendo 100%."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">VS</div>
+            <div>
+              <strong>Valentina Suárez</strong>
+              <span>Clienta desde 2023</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FAQ ═══════════ -->
+  <section class="section section-alt" id="faq">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-badge">Preguntas frecuentes</span>
+        <h2>¿Tienes dudas? Aquí las resolvemos</h2>
+      </div>
+      <div class="faq-list" data-animate>
+        <!-- EDITABLE: Cambia estas preguntas por las más comunes de tu negocio -->
+        <details class="faq-item">
+          <summary>¿Necesito crear una cuenta para agendar?</summary>
+          <p>No, no necesitas cuenta ni registro. Solo llena el formulario con tu nombre, WhatsApp y el servicio que deseas. ¡Es instantáneo!</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Puedo cancelar o reprogramar mi cita?</summary>
+          <p>Sí, solo escríbenos por WhatsApp con al menos 2 horas de anticipación y te ayudamos a encontrar un nuevo horario.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cuáles son los métodos de pago?</summary>
+          <p>Aceptamos efectivo, Nequi, Daviplata y transferencia bancaria. El pago se realiza al finalizar el servicio.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cuánto dura cada servicio?</summary>
+          <p>Depende del servicio: una manicura tradicional toma 45 minutos, semipermanente 60 min, y acrílicas o polygel entre 90 minutos. Todos los tiempos están indicados al agendar.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Qué horario de atención tienen?</summary>
+          <p>Atendemos de lunes a sábado, de 8:45 a.m. a 7:00 p.m., con descanso de almuerzo de 12:00 a 1:00 p.m.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CTA FINAL ═══════════ -->
+  <section class="section cta-final">
+    <div class="container cta-final-inner" data-animate>
+      <h2>¿Lista para lucir unas uñas increíbles?</h2>
+      <p>Reserva tu cita ahora y déjanos consentirte. Es rápido, fácil y sin complicaciones.</p>
+      <a href="agendar.html" class="btn btn-primary btn-lg">
+        Agendar mi cita ahora
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">💅 Agenda Manicura</span>
+        <p>Tu cita perfecta, en un clic.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#como-funciona">Cómo funciona</a></li>
+          <li><a href="#faq">Preguntas frecuentes</a></li>
+          <li><a href="agendar.html">Agendar cita</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>Contacto</h4>
+        <!-- EDITABLE: Agrega tu info real de contacto -->
+        <ul>
+          <li>📱 WhatsApp: +57 300 123 4567</li>
+          <li>📍 Tu ciudad, Colombia</li>
+          <li>🕐 Lun-Sáb 8:45am – 7:00pm</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© 2024 Agenda Manicura. Hecho con 💅 y ☕</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/landing.js"></script>
 </body>
 </html>
